@@ -25,7 +25,6 @@ public class Treningsdagbok {
             conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 
             //execute a query
-            System.out.println("Creating database...");
             stmt = conn.createStatement();
 
             String sql = "SELECT * FROM ovelse";
