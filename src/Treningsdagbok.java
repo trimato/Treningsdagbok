@@ -13,9 +13,10 @@ public class Treningsdagbok {
     static final String USER = "eogrotte_bruker";
     static final String PASSWORD = "penguin";
 
-    public static void main(String[] args) {
-        Connection conn = null;
-        Statement stmt = null;
+    //database connection
+    Connection conn = null;
+
+    public boolean connect() {
         try {
             //register JDBC driver
             Class.forName(JDBC_DRIVER);
@@ -23,12 +24,55 @@ public class Treningsdagbok {
             //open a connection
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            return true;
+        }
+        catch(SQLException se) {
+            se.printStackTrace();
+            return false;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
+    public void disconnect() {
+        try {
+            if (conn != null)
+                conn.close();
+        }
+        catch(SQLException se) {
+            se.printStackTrace();
+        }
+    }
+
+    public ResultSet query(String sql) {
+        Statement stmt = null;
+
+        try {
             //execute a query
             stmt = conn.createStatement();
-
-            String sql = "SELECT * FROM ovelse";
             ResultSet result = stmt.executeQuery(sql);
+            return result;
+        }
+        catch(SQLException se) {
+            se.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        Treningsdagbok td = new Treningsdagbok();
+
+        if (!td.connect()) {
+            System.out.println("Failed to connect.");
+            return;
+        }
+
+        try {
+            System.out.println("Querying...");
+            String sql = "SELECT * FROM ovelse";
+            ResultSet result = td.query(sql);
             while (result.next()) {
                 //retrieve by column name
                 int ovelseID = result.getInt("ovelseID");
@@ -42,32 +86,10 @@ public class Treningsdagbok {
                 System.out.println(ovelseID + " " + navn + " " + beskrivelse + " " + sett + " " + repetisjoner + " " + belastning + " " + gruppeID + " " + resultatID);
             }
         }
-        catch(SQLException se) {
-            //handle errors for JDBC
-           se.printStackTrace();
+        catch (SQLException se) {
+            se.printStackTrace();
         }
-        catch(Exception e) {
-            //handle errors for Class.forName
-            e.printStackTrace();
-        }
-        finally {
-            //finally block used for close resources
-            try {
-                if (stmt != null)
-                    stmt.close();
-            }
-            catch(SQLException se2) {
-                //nothing we can do
-            }
-            try {
-                if (conn != null)
-                    conn.close();
-            }
-            catch(SQLException se) {
-                se.printStackTrace();
-            }
-            //end finally try
-        }
+        td.disconnect();
         System.out.println("Goodbye!");
     }
 }
