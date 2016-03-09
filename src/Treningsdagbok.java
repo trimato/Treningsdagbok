@@ -58,9 +58,23 @@ public class Treningsdagbok {
         }
     }
 
+    public USECASE1 {
+
+    }
+
+    public USECASE2 {
+
+    }
+
+    public USECASE3 {
+
+    }
+
     public static void main(String[] args) {
         Treningsdagbok td = new Treningsdagbok();
         Statement stmt = null;
+        stmt = conn.createStatement();
+        Scanner scanner = new Scanner(System.in);
 
         if (!td.connect()) {
             System.out.println("Failed to connect.");
@@ -73,26 +87,25 @@ public class Treningsdagbok {
         System.out.println("2: Retrieve information about sessions the last week");
         System.out.println("3: Retrieve top 3 best knebøy-sessions");
         System.out.println("4: Exit");
-        Scanner scanchoice = new Scanner(System.in);
         System.out.println();
         System.out.println("Enter \"1\", \"2\" or \"3\"");
-        int choiceentry = scanchoice.nextInt();
+        int choice = scanner.nextInt();
 
-        while ((choiceentry > 0) && (choiceentry < 5)) {
-            if (choiceentry == 1) {
+        while ((choice > 0) && (choice < 5)) {
+            if (choice == 1) {
                 System.out.println("Insert values:");
                 System.out.println("treningsID?");
-                Scanner treningsID = new Scanner(System.in);
+                int treningsID = scanner.nextInt();
                 System.out.println("dato?");
-                Scanner dato = new Scanner(System.in);
+                Date dato = scanner.nextLine();
                 System.out.println("varighet?");
-                Scanner varighet = new Scanner(System.in);
+                int varighet = scanner.nextInt();
                 System.out.println("form?");
-                Scanner form = new Scanner(System.in);
+                String form = scanner.nextLine();
                 System.out.println("prestasjon?");
-                Scanner prestasjon = new Scanner(System.in);
+                String prestasjon = scanner.nextLine();
                 System.out.println("notat?");
-                Scanner notat = new Scanner(System.in);
+                String notat = scanner.nextLine();
 
                 try {
                     stmt.executeUpdate("INSERT INTO treningsokt + VALUES(treningsID, dato, varighet, form, prestasjon, notat)");
@@ -118,11 +131,11 @@ public class Treningsdagbok {
                 } catch (SQLException se) {
                     se.printStackTrace();
                 }
-            } else if (choiceentry == 2) {
+            } else if (choice == 2) {
                 //KODE EVEN
-            } else if (choiceentry == 3) {
+            } else if (choice == 3) {
                 //KODE KATRINE
-            } else if (choiceentry == 4) {
+            } else if (choice == 4) {
                 System.out.println("Goodbye!");
                 return;
             }
