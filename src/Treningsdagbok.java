@@ -3,6 +3,7 @@
  */
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Treningsdagbok {
     //JDBC driver name and database URL
@@ -25,12 +26,10 @@ public class Treningsdagbok {
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             return true;
-        }
-        catch(SQLException se) {
+        } catch (SQLException se) {
             se.printStackTrace();
             return false;
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -40,8 +39,7 @@ public class Treningsdagbok {
         try {
             if (conn != null)
                 conn.close();
-        }
-        catch(SQLException se) {
+        } catch (SQLException se) {
             se.printStackTrace();
         }
     }
@@ -54,8 +52,7 @@ public class Treningsdagbok {
             stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery(sql);
             return result;
-        }
-        catch(SQLException se) {
+        } catch (SQLException se) {
             se.printStackTrace();
             return null;
         }
@@ -63,33 +60,72 @@ public class Treningsdagbok {
 
     public static void main(String[] args) {
         Treningsdagbok td = new Treningsdagbok();
+        Statement stmt = null;
 
         if (!td.connect()) {
             System.out.println("Failed to connect.");
             return;
         }
 
-        try {
-            System.out.println("Querying...");
-            String sql = "SELECT * FROM ovelse";
-            ResultSet result = td.query(sql);
-            while (result.next()) {
-                //retrieve by column name
-                int ovelseID = result.getInt("ovelseID");
-                String navn = result.getString("navn");
-                String beskrivelse = result.getString("beskrivelse");
-                int sett = result.getInt("sett");
-                int repetisjoner = result.getInt("repetisjoner");
-                int belastning = result.getInt("belastning");
-                int gruppeID = result.getInt("gruppeID");
-                int resultatID = result.getInt("resultatID");
-                System.out.println(ovelseID + " " + navn + " " + beskrivelse + " " + sett + " " + repetisjoner + " " + belastning + " " + gruppeID + " " + resultatID);
+        System.out.println("What do you what to do today?");
+        System.out.println("Enter one of the following choices:");
+        System.out.println("1: Insert information about treningsokt");
+        System.out.println("2: Retrieve information about sessions the last week");
+        System.out.println("3: Retrieve top 3 best knebøy-sessions");
+        System.out.println("4: Exit");
+        Scanner scanchoice = new Scanner(System.in);
+        System.out.println();
+        System.out.println("Enter \"1\", \"2\" or \"3\"");
+        int choiceentry = scanchoice.nextInt();
+
+        while ((choiceentry > 0) && (choiceentry < 5)) {
+            if (choiceentry == 1) {
+                System.out.println("Insert values:");
+                System.out.println("treningsID?");
+                Scanner treningsID = new Scanner(System.in);
+                System.out.println("dato?");
+                Scanner dato = new Scanner(System.in);
+                System.out.println("varighet?");
+                Scanner varighet = new Scanner(System.in);
+                System.out.println("form?");
+                Scanner form = new Scanner(System.in);
+                System.out.println("prestasjon?");
+                Scanner prestasjon = new Scanner(System.in);
+                System.out.println("notat?");
+                Scanner notat = new Scanner(System.in);
+
+                try {
+                    stmt.executeUpdate("INSERT INTO treningsokt + VALUES(treningsID, dato, varighet, form, prestasjon, notat)");
+                }
+                catch (SQLException se) {
+                    se.printStackTrace();
+                }
+
+                try {
+                    System.out.println("Querying treningsokt...");
+                    String sql = "SELECT * FROM treningsokt";
+                    ResultSet result = td.query(sql);
+                    while (result.next()) {
+                        //retrieve by column name
+                        int treningsID1 = result.getInt("treningsID");
+                        Date dato1 = result.getDate("dato");
+                        double varighet1 = result.getDouble("varighet");
+                        int form1 = result.getInt("form");
+                        int prestasjon1 = result.getInt("prestasjon");
+                        String notat1 = result.getString("notat");
+                        System.out.println(treningsID + " " + dato + " " + varighet + " " + form + " " + prestasjon + " " + notat);
+                    }
+                } catch (SQLException se) {
+                    se.printStackTrace();
+                }
+            } else if (choiceentry == 2) {
+                //KODE EVEN
+            } else if (choiceentry == 3) {
+                //KODE KATRINE
+            } else if (choiceentry == 4) {
+                System.out.println("Goodbye!");
+                return;
             }
         }
-        catch (SQLException se) {
-            se.printStackTrace();
-        }
-        td.disconnect();
-        System.out.println("Goodbye!");
     }
 }
