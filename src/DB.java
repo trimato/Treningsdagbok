@@ -1,8 +1,8 @@
-import java.sql.*;
-
 /**
  * Created by TrineMarie on 09.03.2016.
  */
+import java.sql.*;
+
 public class DB {
     //JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";

@@ -1,12 +1,11 @@
+/**
+ * Created by TrineMarie on 09.03.2016.
+ */
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-/**
- * Created by TrineMarie on 09.03.2016.
- */
 public class Gruppe {
-
     public static HashMap<Integer, String> getAll(DB db) {
         HashMap<Integer, String> groups = new HashMap<Integer, String>();
         try {

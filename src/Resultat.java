@@ -1,11 +1,11 @@
+/**
+ * Created by TrineMarie on 09.03.2016.
+ */
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-/**
- * Created by TrineMarie on 09.03.2016.
- */
 public class Resultat {
     public static int insert(DB db) {
         Scanner scanner = new Scanner(System.in);
@@ -31,11 +31,9 @@ public class Resultat {
                 ResultSet rs = stmt.getGeneratedKeys();
                 rs.next();
                 return rs.getInt(1);
-            }
-            catch (SQLException se) {
+            } catch (SQLException se) {
                 se.printStackTrace();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Noe gikk galt. Prøv igjen!");
             }
         }

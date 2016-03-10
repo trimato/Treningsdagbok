@@ -1,27 +1,26 @@
+/**
+ * Created by TrineMarie on 09.03.2016.
+ */
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-/**
- * Created by TrineMarie on 09.03.2016.
- */
 public class Treningsokt {
     public static int insert(DB db) {
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.mm.yy");
 
         while (true) {
-
-            System.out.println("Insert values:");
+            System.out.println("Insert values.");
             LocalDate ld = LocalDate.now();
-            System.out.println("varighet?");
+            System.out.println("Varighet: ");
             double varighet = scanner.nextDouble();
-            System.out.println("form?");
+            System.out.println("Form: ");
             int form = scanner.nextInt();
-            System.out.println("prestasjon?");
+            System.out.println("Prestasjon: ");
             int prestasjon = scanner.nextInt();
-            System.out.println("notat?");
+            System.out.println("Notat: ");
             String notat = "";
             while (notat.equals(""))
                 notat = scanner.nextLine();
@@ -40,11 +39,9 @@ public class Treningsokt {
                 ResultSet rs = stmt.getGeneratedKeys();
                 rs.next();
                 return rs.getInt(1);
-            }
-            catch (SQLException se) {
+            } catch (SQLException se) {
                 se.printStackTrace();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Noe gikk galt. Prøv igjen!");
             }
         }

@@ -1,19 +1,13 @@
 /**
  * Created by TrineMarie on 08.03.2016.
  */
-
-import java.sql.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Treningsdagbok {
     DB db = new DB();
     public Treningsdagbok() {
         db.connect();
-        System.out.println("Connected to database...");
+        System.out.println("Connected to database.");
     }
 
     public void insertTreningsoktAndOvelse() {
@@ -26,14 +20,14 @@ public class Treningsdagbok {
     }
 
     public static void printMenu() {
-        System.out.println("What do you what to do today?");
-        System.out.println("Enter one of the following choices:");
+        System.out.println("What do you what to do?");
+        System.out.println("Enter one of the following choices");
         System.out.println("1: Insert information about treningsokt");
         System.out.println("2: Retrieve information about sessions the last week");
         System.out.println("3: Retrieve top 3 best knebøy-sessions");
         System.out.println("4: Exit");
         System.out.println();
-        System.out.println("Enter \"1\", \"2\" or \"3\"");
+        System.out.println("Enter \"1\", \"2\" or \"3\" ");
     }
 
     public static void main(String[] args) {
@@ -54,7 +48,6 @@ public class Treningsdagbok {
                 break;
             }
         }
-
         td.db.disconnect();
     }
 }
