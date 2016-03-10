@@ -46,11 +46,10 @@ public class Treningsdagbok {
             if (choice == 1) {
                 td.insertTreningsoktAndOvelse();
             } else if (choice == 2) {
-                //KODE EVEN
                 Date date = new Date(System.currentTimeMillis() - daysToMillis(7));
 
                 //Finner de aktuelle treningsøktene:
-                String selectSql = "SELCET * FROM treningsokt WHERE dato > '" + date + "';";
+                String selectSql = "SELECT * FROM treningsokt WHERE dato > '" + date + "';";
                 Statement statement = null;
 
                 try {
@@ -76,11 +75,10 @@ public class Treningsdagbok {
                     e.printStackTrace();
                 }
             } else if (choice == 3) {
-                //KODE KATRINE
                 try {
                     String sql = "SELECT resultat.dato, resultat.resultat, resultat.enhet FROM ovelse, resultat WHERE ovelse.resultatID = resultat.resultatID AND ovelse.navn = 'Knebøy' ORDER BY resultat.resultat DESC";
                     ResultSet result = td.db.query(sql);
-                    for (int k = 1; k > 4; k++) {
+                    for (int k = 1; k < 4; k++) {
                         if (result.next()) {
                             Date dato = result.getDate("Resultat.dato");
                             int resultat = result.getInt("Resultat.resultat");
