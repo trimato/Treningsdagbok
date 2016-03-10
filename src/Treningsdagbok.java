@@ -1,6 +1,7 @@
 /**
  * Created by TrineMarie on 08.03.2016.
  */
+import java.sql.*;
 import java.util.Scanner;
 
 public class Treningsdagbok {
@@ -43,6 +44,20 @@ public class Treningsdagbok {
                 //KODE EVEN
             } else if (choice == 3) {
                 //KODE KATRINE
+                try {
+                    String sql = "SELECT resultat.dato, resultat.resultat, resultat.enhet FROM ovelse, resultat WHERE ovelse.resultatID = resultat.resultatID AND ovelse.navn = 'Knebøy' ORDER BY resultat.resultat DESC";
+                    ResultSet result = td.db.query(sql);
+                    for(int k = 1; k > 4; k++) {
+                        if (result.next()) {
+                            Date dato = result.getDate("Resultat.dato");
+                            int resultat = result.getInt("Resultat.resultat");
+                            String enhet = result.getString("Resultat.enhet");
+                            System.out.println(k + ". : " + dato + " " + resultat + " " + enhet);
+                        }
+                    }
+                } catch (SQLException se){
+                    se.printStackTrace();
+                }
             } else if (choice == 4) {
                 System.out.println("Goodbye!");
                 break;
