@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Treningsdagbok {
     DB db = new DB();
+
     public Treningsdagbok() {
         db.connect();
         System.out.println("Connected to database.");
@@ -49,7 +50,7 @@ public class Treningsdagbok {
                 Date date = new Date(System.currentTimeMillis() - daysToMillis(7));
 
                 //Finner de aktuelle treningsøktene:
-                String selectSql = "select * from treningsokt where dato > '" + date + "';";
+                String selectSql = "SELCET * FROM treningsokt WHERE dato > '" + date + "';";
                 Statement statement = null;
 
                 try {
@@ -73,12 +74,13 @@ public class Treningsdagbok {
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
+                }
             } else if (choice == 3) {
                 //KODE KATRINE
                 try {
                     String sql = "SELECT resultat.dato, resultat.resultat, resultat.enhet FROM ovelse, resultat WHERE ovelse.resultatID = resultat.resultatID AND ovelse.navn = 'Knebøy' ORDER BY resultat.resultat DESC";
                     ResultSet result = td.db.query(sql);
-                    for(int k = 1; k > 4; k++) {
+                    for (int k = 1; k > 4; k++) {
                         if (result.next()) {
                             Date dato = result.getDate("Resultat.dato");
                             int resultat = result.getInt("Resultat.resultat");
@@ -86,14 +88,14 @@ public class Treningsdagbok {
                             System.out.println(k + ". : " + dato + " " + resultat + " " + enhet);
                         }
                     }
-                } catch (SQLException se){
+                } catch (SQLException se) {
                     se.printStackTrace();
                 }
             } else if (choice == 4) {
-                System.out.println("Goodbye!");
-                break;
+                    System.out.println("Goodbye!");
+                    break;
+                }
             }
-        }
         td.db.disconnect();
+        }
     }
-}
