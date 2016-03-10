@@ -31,6 +31,10 @@ public class Treningsdagbok {
         System.out.println("Enter \"1\", \"2\" or \"3\" ");
     }
 
+    private static long daysToMillis(long days) {
+        return days * 24L * 60L * 60L * 1000L;
+    }
+
     public static void main(String[] args) {
         Treningsdagbok td = new Treningsdagbok();
 
@@ -42,6 +46,33 @@ public class Treningsdagbok {
                 td.insertTreningsoktAndOvelse();
             } else if (choice == 2) {
                 //KODE EVEN
+                Date date = new Date(System.currentTimeMillis() - daysToMillis(7));
+
+                //Finner de aktuelle treningsøktene:
+                String selectSql = "select * from treningsokt where dato > '" + date + "';";
+                Statement statement = null;
+
+                try {
+                    statement = DB.conn.createStatement();
+                    ResultSet rs = statement.executeQuery(selectSql);
+                    while (rs.next()) {
+                        int treningsID = rs.getInt(1);
+                        System.out.println("treningsID = " + treningsID);
+                        Date dato = rs.getDate(2);
+                        double varighet = rs.getDouble(3);
+                        int form = rs.getInt(4);
+                        int prestasjon = rs.getInt(5);
+                        String notat = rs.getString(6);
+
+                        System.out.println("notat = " + notat);
+                        System.out.println("form = " + form);
+                        System.out.println("Dato = " + dato);
+                        System.out.println("Prestasjon = " + prestasjon);
+                        System.out.println("varighet = " + varighet);
+                        System.out.println("");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
             } else if (choice == 3) {
                 //KODE KATRINE
                 try {
